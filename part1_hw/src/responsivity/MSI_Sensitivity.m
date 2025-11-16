@@ -11,13 +11,256 @@ IF1 = strcat(path, 'IF_T_550nm');
 load(IF1);
 IF_550 = Vq;
 
+
+figure();hold on
+for i = 1:10:250
+    plot(400:1000, IF_550(:,i))
+end
+hold off
+xlim([520 570])
+grid on
+
+%% plot IF_550 graph and label only 0.0 degree and 24.9 degree angles
+
+figure();hold on
+for i = 1:10:250
+    plot(400:1000, IF_550(:,i))
+end
+hold off
+xlim([520 570])
+grid on
+angle_labels = [[0.0], [0.9:1.0:24.9]];
+for i = [1, 250]
+    if i == 1
+        idx = 1;
+    else
+        idx = i/10 + 1; % index for angle labels
+    end
+
+    
+    % Only add label for selected curves
+    % Find the peak within the xlim range [810 870]
+    x_range = 520:570;
+    y_data = IF_550(x_range-399, i);  % Adjust index based on your data
+    [peak_val, peak_idx] = max(y_data);
+    peak_x = x_range(peak_idx);
+    
+    % Add text label at the peak
+    text(peak_x, peak_val, sprintf('%.1f°', angle_labels(idx)), ...
+        'FontSize', 8, 'HorizontalAlignment', 'center', ...
+        'VerticalAlignment', 'bottom');
+end
+xlabel("Wavelength (nm)")
+ylabel("Transmittance")
+print(gcf, 'IF550_3_300dpi.png', '-dpng', '-r300');
+%}
+%% plot IF_550 graph and label customized angles
+
+%{
+% Add text labels at the peak of each curve
+angle_labels = [[0.0], [0.9:1.0:24.9]];  % Array of angles: 0, 0.9, 1.9, 2.9, ..., 24.9
+for i = [1, [70, 90, 110:10:250]] % for grapgh clarity, only plot selected angles. If plotting all angles, use: i = [1, [10:10:250]]
+    if i == 1
+        idx = 1;
+    else
+        idx = i/10 + 1; % index for angle labels
+    end
+
+    
+    % Find the peak within the xlim range [520 570]
+    x_range = 520:570;
+    y_data = IF_550(x_range-399, i);  % Adjust index based on your data
+    [peak_val, peak_idx] = max(y_data);
+    peak_x = x_range(peak_idx);
+    
+    % Add text label at the peak
+    text(peak_x, peak_val, sprintf('%.1f°', angle_labels(idx)), ...
+        'FontSize', 8, 'HorizontalAlignment', 'center', ...
+        'VerticalAlignment', 'bottom');
+end
+xlabel("Wavelength (nm)")
+ylabel("Transmittance")
+%}
+
+
+
 IF2 = strcat(path, 'IF_T_690nm');
 load(IF2);
 IF_690 = Vq;
 
+figure();hold on
+for i = 1:10:250
+    plot(400:1000, IF_690(:,i))
+end
+hold off
+xlim([655 715])
+grid on
+
+%% plot IF_690 graph and label only 0.0 degree and 24.9 degree angles
+%{
+figure();hold on
+for i = 1:10:250
+    plot(400:1000, IF_690(:,i))
+end
+hold off
+xlim([655 715])
+grid on
+angle_labels = [[0.0], [0.9:1.0:24.9]];
+for i = [1, 250]
+    if i == 1
+        idx = 1;
+    else
+        idx = i/10 + 1; % index for angle labels
+    end
+
+    
+    % Only add label for selected curves
+    % Find the peak within the xlim range [810 870]
+    x_range = 655:715;
+    y_data = IF_690(x_range-399, i);  % Adjust index based on your data
+    [peak_val, peak_idx] = max(y_data);
+    peak_x = x_range(peak_idx);
+    
+    % Add text label at the peak
+    text(peak_x, peak_val, sprintf('%.1f°', angle_labels(idx)), ...
+        'FontSize', 8, 'HorizontalAlignment', 'center', ...
+        'VerticalAlignment', 'bottom');
+end
+xlabel("Wavelength (nm)")
+ylabel("Transmittance")
+print(gcf, 'IF690_3_300dpi.png', '-dpng', '-r300');
+%}
+%% plot IF_690 graph and label customized angles
+%{
+% Add text labels at the peak of each curve
+angle_labels = [[0.0], [0.9:1.0:24.9]];  % Array of angles: 0, 0.9, 1.9, 2.9, ..., 24.9
+label_interval = 3;  % Label every 2nd curve
+for i = [1, [80:10:250]]
+    if i == 1
+        idx = 1;
+    else
+        idx = i/10 + 1; % index for angle labels
+    end
+
+    if i < 230
+        % Only add label for selected curves
+        if mod(idx-1, label_interval) == 0
+            % Find the peak within the xlim range [655 715]
+            x_range = 655:715;
+            y_data = IF_690(x_range-399, i);  % Adjust index based on your data
+            [peak_val, peak_idx] = max(y_data);
+            peak_x = x_range(peak_idx);
+            
+            % Add text label at the peak
+            text(peak_x, peak_val, sprintf('%.1f°', angle_labels(idx)), ...
+                'FontSize', 8, 'HorizontalAlignment', 'center', ...
+                'VerticalAlignment', 'bottom');
+        end
+    end
+end
+% (i >= 230)
+for i = 230:20:250
+    idx = i/10 + 1; % index for angle labels
+    %if idx == 250/10 + 1 % i = 250, plots the 24.9 degree angle
+    x_range = 655:715;
+    y_data = IF_690(x_range-399, i);  % Adjust index based on your data
+    [peak_val, peak_idx] = max(y_data);
+    peak_x = x_range(peak_idx);
+    
+    % Add text label at the peak
+    text(peak_x, peak_val, sprintf('%.1f°', angle_labels(idx)), ...
+        'FontSize', 8, 'HorizontalAlignment', 'center', ...
+        'VerticalAlignment', 'bottom');
+   % end
+end
+xlabel("Wavelength (nm)")
+ylabel("Transmittance")
+%}
+
 IF3 = strcat(path, 'IF_T_850nm');
 load(IF3);
 IF_850 = Vq;
+
+%% plot IF_850 graph and label only 0.0 degree and 24.9 degree angles
+%{ 
+figure();hold on
+for i = 1:10:250
+    plot(400:1000, IF_850(:,i))
+end
+hold off
+xlim([810 870])
+grid on
+angle_labels = [[0.0], [0.9:1.0:24.9]];
+for i = [1, 250]
+    if i == 1
+        idx = 1;
+    else
+        idx = i/10 + 1; % index for angle labels
+    end
+
+    
+    % Only add label for selected curves
+    % Find the peak within the xlim range [810 870]
+    x_range = 810:870;
+    y_data = IF_850(x_range-399, i);  % Adjust index based on your data
+    [peak_val, peak_idx] = max(y_data);
+    peak_x = x_range(peak_idx);
+    
+    % Add text label at the peak
+    text(peak_x, peak_val, sprintf('%.1f°', angle_labels(idx)), ...
+        'FontSize', 8, 'HorizontalAlignment', 'center', ...
+        'VerticalAlignment', 'bottom');
+end
+xlabel("Wavelength (nm)")
+ylabel("Transmittance")
+print(gcf, 'IF850_3_300dpi.png', '-dpng', '-r300');
+%}
+%% plot IF_850 graph and label customized angles
+%{
+% Add text labels at the peak of each curve
+angle_labels = [[0.0], [0.9:1.0:24.9]];  % Array of angles: 0, 0.9, 1.9, 2.9, ..., 24.9
+label_interval = 3;  % Label every 2nd curve
+for i = [1, [80:10:250]]
+    if i == 1
+        idx = 1;
+    else
+        idx = i/10 + 1; % index for angle labels
+    end
+
+    if i < 230
+        % Only add label for selected curves
+        if mod(idx-1, label_interval) == 0
+            % Find the peak within the xlim range [810 870]
+            x_range = 810:870;
+            y_data = IF_850(x_range-399, i);  % Adjust index based on your data
+            [peak_val, peak_idx] = max(y_data);
+            peak_x = x_range(peak_idx);
+            
+            % Add text label at the peak
+            text(peak_x, peak_val, sprintf('%.1f°', angle_labels(idx)), ...
+                'FontSize', 8, 'HorizontalAlignment', 'center', ...
+                'VerticalAlignment', 'bottom');
+        end
+    end
+end
+% (i >= 230)
+for i = 230:20:250
+    idx = i/10 + 1; % index for angle labels
+    %if idx == 250/10 + 1 % i = 250, plots the 24.9 degree angle
+    x_range = 810:870;
+    y_data = IF_850(x_range-399, i);  % Adjust index based on your data
+    [peak_val, peak_idx] = max(y_data);
+    peak_x = x_range(peak_idx);
+    
+    % Add text label at the peak
+    text(peak_x, peak_val, sprintf('%.1f°', angle_labels(idx)), ...
+        'FontSize', 8, 'HorizontalAlignment', 'center', ...
+        'VerticalAlignment', 'bottom');
+   % end
+end
+xlabel("Wavelength (nm)")
+ylabel("Transmittance")
+%}
 
 R = Responsivity();
 
